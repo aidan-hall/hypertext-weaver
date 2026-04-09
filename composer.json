@@ -1,0 +1,14 @@
+{
+    "name": "aidan-hall/hypertext-weaver",
+    "description": "An interactive system for reading and writing a hypertext/wiki, inspired by the C2 Wiki an Zettelkasten.",
+    "type": "project",
+    "require": {
+        "league/commonmark": "^2.8",
+        "symfony/yaml": "^8.0"
+    },
+    "authors": [
+        {
+            "name": "Aidan Hall"
+        }
+    ]
+}
