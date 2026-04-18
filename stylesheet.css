@@ -1,0 +1,7 @@
+article {
+    max-width: 60em;
+}
+body {
+    display: flex;
+    flex-direction: row;
+}
