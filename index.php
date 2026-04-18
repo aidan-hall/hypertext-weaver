@@ -86,7 +86,7 @@ foreach ($search_terms as $term) {
 }
 
 $where_clause = empty($where_terms) ? '' : 'where ' . implode(' and ', $where_terms);
-$sql_query = "select id, body, min(created) created, max(created) updated from posts $where_clause group by id order by $sort $sort_direction";
+$sql_query = "select posts.id, body, min(created) created, max(created) updated from posts join (select id, max(created) latest from posts group by id) latest_posts on posts.id = latest_posts.id and posts.created = latest $where_clause group by posts.id order by $sort $sort_direction";
 $prepared_query = $db->prepare($sql_query);
 
 // echo $sql_query . "<br/>" . $prepared_query->paramCount() . "<br/>\n";
@@ -110,8 +110,10 @@ $posts = $prepared_query->execute();
   <body>
     <div id="pane-<?=$pane_id?>">
       <search>
-        <form action="/" method="GET">
+<button onclick="document.getElementById('pane-<?=$pane_id?>')?.remove()">X</button>
+        <form action="/#pane-<?=$pane_id?>" method="POST" target=htmz>
           <input style="width: 100%" name="q" type="search" value="<?=$query?>" placeholder="Search"/>
+<input type=checkbox name="replace" checked hidden/>
           <label>
             Sort
             <select name="sort">
@@ -133,7 +135,7 @@ $posts = $prepared_query->execute();
       </search>
       <div id="results-<?=$pane_id?>">
 <?php while ($post = $posts->fetchArray()): ?>
-        <article style="border:solid black 1px">
+        <article id="post-<?=$post['id']?>" style="border:solid black 1px">
           <h2><?=$post['id']?></h2>
             <p>Created: <?=postTime($post['created'])?></p>
 <?php if ($post['created'] < $post['updated']): ?>
@@ -145,13 +147,17 @@ $posts = $prepared_query->execute();
     foreach ($post_links as $a) {
         $href = $a->getAttribute("href");
         $a->setAttribute("href", $a->getAttribute("href") . '#new-results');
+        $a->setAttribute("target", 'htmz');
     }
     echo $post_dom->saveHtml();
     ?>
         </article>
 <?php endwhile; ?>
       </div>
-      <div id="new-results"></div>
+    </div>
+<?php if (empty($_REQUEST['replace'])): ?>
+    <a href="/?q=<?=$query?>#new-results" id="new-results" target=htmz>+</a>
+<?php endif; ?>
 <?php if ($document_dest) include 'htmz.html'; ?>
   </body>
 </html>

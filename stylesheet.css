@@ -1,7 +1,9 @@
 article {
-    max-width: 60em;
+    max-width: 40em;
 }
 body {
+    width: max-content;
     display: flex;
     flex-direction: row;
+    overflow: scroll;
 }
