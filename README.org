@@ -1,0 +1,25 @@
+* Concepts
+- A minimal, high-leverage [[https://hypermedia.systems/][hypermedia system]].
+- A note-card style wiki, inspired by [[https://wiki.c2.com/][the original Wiki (C2)]] and Zettelkasten.
+- Explore around an idea through back-links and tags.
+- Weave together "atomic" entries interactively, while reading, to build up larger structures dynamically.
+  - Bind related entries into sequential/hierarchical threads.
+- Present the content in various forms:
+  - "blog posts"
+  - (RSS) feeds
+* Implementation
+- Database of posts
+  - Post ID
+  - Content (Markdown++)
+  - Tags(?)
+  - Provenance: created, updated, versioning
+- Relations (digraphs):
+  Arbitrary relation tags. Some manually specified, some derived from post content (notably links-to).
+  - Parent: These form the basis of threads.
+  - +Previous+ (implicit from parent + modification date?)
+  - "links to" (enables back link queries)
+  - "replaces" (for different versions of the same post)
+  - Some are acyclic, and/or form a tree (parent, replaces).
+- Thread weaving: +follow a chain of relations+ [[https://zettelkasten.de/posts/three-layers-structure-zettelkasten/][structure notes]] form a table of contents for large collections of ideas.
+  - Thread/weave command: get a list of all posts linked to by one post, in the order they are linked.
+- Full-text search (possibly glob, or even regex).
