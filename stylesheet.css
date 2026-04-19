@@ -1,9 +1,13 @@
 article {
-    max-width: 40em;
+    max-width: 25em;
 }
-body {
+.search-pane {
+    width: max-content;
+}
+.search-layer {
     width: max-content;
     display: flex;
     flex-direction: row;
     overflow: scroll;
 }
+
